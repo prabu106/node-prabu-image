@@ -1,0 +1,40 @@
+services:
+  nodemvc:
+    image: node-prabu-image
+    restart: always
+    ports:
+      - 8000:8000
+    build:
+      context: ./
+    depends_on:
+      - mongo-db
+      - redis-cache
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo-db:27017/
+      ME_CONFIG_BASICAUTH: false
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+
+  mongo-db:
+    image: mongo
+    restart: always
+    ports:
+      - 9000:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  redis-cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
