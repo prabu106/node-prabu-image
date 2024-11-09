@@ -1,6 +1,6 @@
 services:
   nodemvc:
-    image: node-prabu-image
+    image: prabuvillan/node-prabu-image
     restart: always
     ports:
       - 8000:8000
@@ -22,7 +22,7 @@ services:
     image: mongo
     restart: always
     ports:
-      - 9000:27017
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -33,8 +33,3 @@ services:
     ports:
       - 6379:6379
     command: redis-server
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
-      interval: 1s
-      timeout: 3s
-      retries: 5

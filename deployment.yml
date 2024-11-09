@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-prabu-image
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-prabu-image
+  template:
+    metadata:
+      labels:
+        app: node-prabu-image
+    spec:
+      containers:
+      - name: node-prabu-image
+        image: prabuvillan/node-prabu-image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
